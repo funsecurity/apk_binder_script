@@ -75,15 +75,20 @@ Si no surgen problemas el resultado es almacenado en "Bind_apk_target.apk"
 Limitations
 -----------
 en:
-apk_binder_script has certain limitations and currently runs stably with services "bindeados". 
+apk_binder_script has certain limitations and works stable with services "bindeados". 
 Currently no resources or activities to the manifest are copied, and in some cases creates problems recompiling with apktool. 
-Viability and use cases for successful implementation are studied.
-
+Viability and use cases for proper implementation etudia. 
+When recompiling with apktool certain apks', you may not do it properly generating resource compilation errors, 
+but it is a case outside the script. How to decode the file AndroidManifest.xml is studied manually decode avoiding 
+all resources.
 -----------------------
 es:
-apk_binder_script tiene ciertas limitaciones y actualmente funciona estable con servicios "bindeados".
+apk_binder_script tiene ciertas limitaciones y funciona estable con servicios "bindeados".
 Actualmente no se copian recursos ni actividades al manifiesto, ya que en algunos casos genera problemas de recompilación con apktool.
 Se etudia la viabilidad y casos de uso para una correcta implementación.
+Al recompilar con apktool ciertos apks', es posible que no lo haga correctamente generando errores de compilación de recursos, 
+pero es un caso ajeno al script. Se estudia la forma de decodificar el archivo AndroidManifest.xml manualmente evitando así decodificar
+todos los recursos.
 
 Files
 -----
