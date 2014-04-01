@@ -3,13 +3,26 @@
 About apk_binder_script
 -----------------------
 en:
-It is a script that allows us to join two into one unifying apk resources, classes and the manifest. 
-There are certain limitations as it may be shares between two apk's, so it is preferable to develop a service that will be invoked when the event is executed timely.
+apk_binder_script allows us to join two into one unifying apk resources, classes and manifest. Implements a receiver acting loader 
+of the class specified. The loader takes the load of the class based on two events currently implemented: 
 
+* android.intent.action.BOOT_COMPLETED 
+* android.intent.action.ACTION_POWER_CONNECTED 
+
+You can add actions and permissions as desired. 
+
+In short, allows us to "extend" the functionality of a apk with us to design.
 -----------------------
 es:
-Es un script que nos permite unir dos apk en uno unificando los recursos, clases y el manifiesto.
-Existen ciertas limitaciones ya que pueden existir recursos compartidos entre dos apk's, por ello es preferible desarrollar un servicio que será invocado cuando se ejecute el evento oportuno.
+apk_binder_script nos permite unir dos apk en uno unificando recursos, clases y manifiesto. Implementa un receiver que actúa de loader
+de la clase especificada. El loader realiza la carga de la clase en base a dos eventos actualmente implementados:
+
+* android.intent.action.BOOT_COMPLETED
+* android.intent.action.ACTION_POWER_CONNECTED
+
+Se pueden agregar acciones y permisos según se desee.
+
+En resumen, nos permite "extender" las funcionalidades de un apk con el que nosotros diseñemos.
 
 Requirements
 ------------
