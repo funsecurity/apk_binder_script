@@ -116,7 +116,7 @@ Credits
 -------
 
 * Adrián Ruiz
-* funsecurity.net
-* @funsecurity.net
-* adrian@adrianruiz.net
+* w: funsecurity.net
+* t: @funsecurity.net
+* e: adrian_adrianruiz.net
 * GPG ID: 0x586270E8
