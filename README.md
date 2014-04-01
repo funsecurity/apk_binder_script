@@ -78,36 +78,31 @@ Se etudia la viabilidad y casos de uso para una correcta implementación.
 Files
 -----
 en:
-apk_binder_script.py - script 
-tmp/ - temporary directory to store the decompiled / compiled apks 
-loader/permissions.xml - base permissions used by the loader (can be extended and register those who need it) 
-loader/receiver.xml - receiver will be discharged in order to receive AndroidManifest.xml events held there (can be extended) 
-loader/smali/Loader.smali - class implementing the receiver which in turn invoke the properties declared in the class. 
-loader/smali/Loader.java - source code receiver.
-loader/assets/loader.properties - properties containing the class to be invoked by the receiver. 
-apktool/ - directory containing the tools apktool decompile / compile apk's.
+* apk_binder_script.py - script 
+* tmp/ - temporary directory to store the decompiled / compiled apks 
+* loader/permissions.xml - base permissions used by the loader (can be extended and register those who need it) 
+* loader/receiver.xml - receiver will be discharged in order to receive AndroidManifest.xml events held there (can be extended) 
+* loader/smali/Loader.smali - class implementing the receiver which in turn invoke the properties declared in the class. 
+* loader/smali/Loader.java - source code receiver.
+* loader/assets/loader.properties - properties containing the class to be invoked by the receiver. 
+* apktool/ - directory containing the tools apktool decompile / compile apk's.
 
 -----------------------
 es:
-apk_binder_script.py - script
-tmp/ - directorio temporal donde almacenar los apks decompilados/compilados
-loader/permissions.xml - permisos base usados por el loader (pueden extenderse y darse de alta los que se necesiten)
-loader/receiver.xml - receiver que será dado de alta en el AndroidManifest.xml objetivo que recibirá los eventos ahí declarados (también puede extenderse)
-loader/smali/Loader.smali - clase que implementa el receiver y que a su vez invocará a la clase declarada en el properties.
-loader/smali/Loader.java - código fuente del receiver.
-loader/assets/loader.properties - properties que contiene la clase que será invocada por el receiver.
-apktool/ - directorio que contiene la herramienta apktool para decompilar/compilar apk's.
+* apk_binder_script.py - script
+* tmp/ - directorio temporal donde almacenar los apks decompilados/compilados
+* loader/permissions.xml - permisos base usados por el loader (pueden extenderse y darse de alta los que se necesiten)
+* loader/receiver.xml - receiver que será dado de alta en el AndroidManifest.xml objetivo que recibirá los eventos ahí declarados (también * puede extenderse)
+* loader/smali/Loader.smali - clase que implementa el receiver y que a su vez invocará a la clase declarada en el properties.
+* loader/smali/Loader.java - código fuente del receiver.
+* loader/assets/loader.properties - properties que contiene la clase que será invocada por el receiver.
+* apktool/ - directorio que contiene la herramienta apktool para decompilar/compilar apk's.
 
 Credits
 -------
 
-Adrián Ruiz
-funsecurity.net
-@funsecurity.net
-adrian@adrianruiz.net
-GPG
-ID: 0x586270E8
-FINGERPRINT: 9841 A1F0 1FB4 31B2 82F4  6E91 A660 815B 5862 70E8apk_binder_script
-=================
-
-apk binder script
+* Adrián Ruiz
+* funsecurity.net
+* @funsecurity.net
+* adrian@adrianruiz.net
+* GPG ID: 0x586270E8
