@@ -43,7 +43,7 @@ en:
 * AndroidManifest.xml unifies the two apk's. 
 * Copy resources and assets (see limitations). 
 * Implements a receiver that gives high on the apk target acts "binder" and reacts when the charger is connected and restart the device. 
-* When the receiver "awake", invokes the case defined in the properties (which preferably should be a service). 
+* When the receiver "awake", invokes the class defined in the properties (should be a service). 
 * The receiver and the properties are copied to the "package" target with random names. 
 * Compiles and generates an apk with the merger.
 * The apk is not aligned and is not signed.
@@ -54,7 +54,7 @@ es:
 * Unifica AndroidManifest.xml de los dos apk's.
 * Copia recursos y activos (ver limitaciones).
 * Implementa un receiver que dá de alta en el apk objetivo que actúa de "binder" y que reacciona cuando se conecta el cargador y reinicia el dispositivo.
-* Cuando el receiver "despierta", invoca a la case definida en el properties (que preferiblemente debe de ser un servicio).
+* Cuando el receiver "despierta", invoca a la clase definida en el properties (que debe de ser un servicio).
 * El receiver y el properties son copiados en el "package" objetivo con nombres aleatorios.
 * Compila y genera un apk con la fusión realizada.
 * El apk está no está alineado y no está firmado.
@@ -75,20 +75,14 @@ Si no surgen problemas el resultado es almacenado en "Bind_apk_target.apk"
 Limitations
 -----------
 en:
-apk_binder_script has certain limitations and currently runs stably with services "bindeados" 
-You may also "bindear" activities but to copy the resources from it to the destination, you may 
-some left out to these already exist in the destination and therefore when activities are invoked fail. 
-For example, try "bindear" meterpreter is generated correctly, but the invoke activity to generate the reverse shell, 
-fails to find the requested resources. 
+apk_binder_script has certain limitations and currently runs stably with services "bindeados". 
+Currently no resources or activities to the manifest are copied, and in some cases creates problems recompiling with apktool. 
 Viability and use cases for successful implementation are studied.
 
 -----------------------
 es:
 apk_binder_script tiene ciertas limitaciones y actualmente funciona estable con servicios "bindeados".
-Es posible también "bindear" actividades pero al copiar los recursos desde éste hacia el destino, es posible que
-algunos se queden fuera al ya existir éstos en el destino y por lo tanto cuando las actividades son invocadas fallan.
-Por ejemplo, al intentar "bindear" meterpreter, se genera correctamente, pero al invocar a la actividad para generar la shell inversa,
-falla al no encontrar los recursos solicitados.
+Actualmente no se copian recursos ni actividades al manifiesto, ya que en algunos casos genera problemas de recompilación con apktool.
 Se etudia la viabilidad y casos de uso para una correcta implementación.
 
 Files

