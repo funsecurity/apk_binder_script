@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<loader xmlns:android="http://schemas.android.com/apk/res/android">
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+</loader>
