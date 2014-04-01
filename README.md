@@ -63,11 +63,13 @@ Usage
 -----
 en:
 * python ./apk_binder_script apk_target.apk apk_bind.apk class.in.apk_bind_to_invoke
+
 If no problems are found the result is stored in "Bind_apk_target.apk"
 
 -----------------------
 es:
 * python ./apk_binder_script apk_target.apk apk_bind.apk class.in.apk_bind_to_invoke
+
 Si no surgen problemas el resultado es almacenado en "Bind_apk_target.apk"
 
 Limitations
