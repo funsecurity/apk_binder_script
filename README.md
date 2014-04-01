@@ -68,7 +68,7 @@ Viability and use cases for successful implementation are studied.
 
 -----------------------
 es:
-apk_binder_script tiene ciertas limitaciones y actualmente funciona estable con servicios "bindeados"
+apk_binder_script tiene ciertas limitaciones y actualmente funciona estable con servicios "bindeados".
 Es posible también "bindear" actividades pero al copiar los recursos desde éste hacia el destino, es posible que
 algunos se queden fuera al ya existir éstos en el destino y por lo tanto cuando las actividades son invocadas fallan.
 Por ejemplo, al intentar "bindear" meterpreter, se genera correctamente, pero al invocar a la actividad para generar la shell inversa,
