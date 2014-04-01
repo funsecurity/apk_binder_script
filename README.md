@@ -12,6 +12,7 @@ of the class specified. The loader takes the load of the class based on two even
 You can add actions and permissions as desired. 
 
 In short, allows us to "extend" the functionality of a apk with us to design.
+
 -----------------------
 es:
 apk_binder_script nos permite unir dos apk en uno unificando recursos, clases y manifiesto. Implementa un receiver que actúa de loader
