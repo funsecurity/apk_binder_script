@@ -3,27 +3,27 @@
 About apk_binder_script
 -----------------------
 en:
-apk_binder_script allows us to join two into one unifying apk resources, classes and manifest. Implements a receiver acting loader 
-of the class specified. The loader takes the load of the class based on two events currently implemented: 
+apk_binder_script allows us to unify two apk's in one. This copy smali code, active and manifest. 
+Implements a receiver acting loader loading the class specified as a parameter (a service). 
+The loader takes the load of the class based on two events: 
 
 * android.intent.action.BOOT_COMPLETED 
 * android.intent.action.ACTION_POWER_CONNECTED 
 
 You can add actions and permissions as desired. 
-
-In short, allows us to "extend" the functionality of a apk with us to design.
+In short, allows us to "extend" the functionality of a apk.
 
 -----------------------
 es:
-apk_binder_script nos permite unir dos apk en uno unificando recursos, clases y manifiesto. Implementa un receiver que actúa de loader
-de la clase especificada. El loader realiza la carga de la clase en base a dos eventos actualmente implementados:
+apk_binder_script nos permite unificar dos apk's en uno. Para ello copia código smali, activos y manifiesto. 
+Implementa un receiver que actúa de loader cargando la clase que se ha especificado como parámetro (un servicio).
+El loader realiza la carga de la clase en base a dos eventos:
 
 * android.intent.action.BOOT_COMPLETED
 * android.intent.action.ACTION_POWER_CONNECTED
 
 Se pueden agregar acciones y permisos según se desee.
-
-En resumen, nos permite "extender" las funcionalidades de un apk con el que nosotros diseñemos.
+En resumen, nos permite "extender" las funcionalidades de un apk.
 
 Requirements
 ------------
@@ -39,25 +39,25 @@ Requiere de apktool(incluído en el paquete) y por lo tanto también de Java.
 Operation
 ---------
 en:
-* Decompiles apk target and binder. 
+* Decompiles apk apk objective and binder. 
 * AndroidManifest.xml unifies the two apk's. 
-* Copy resources and assets (see limitations). 
-* Implements a receiver that gives high on the apk target acts "binder" and reacts when the charger is connected and restart the device. 
-* When the receiver "awake", invokes the class defined in the properties (should be a service). 
+* Copy and smali code assets (other resources, see limitations). 
+* Implements a receiver that gives high on the apk objective acts "binder" and reacts when the charger is connected or restart the device. 
+* When the receiver "awake", invokes the class defined in the properties (it must be a service). 
 * The receiver and the properties are copied to the "package" target with random names. 
-* Compiles and generates an apk with the merger.
-* The apk is not aligned and is not signed.
+* Compiles and generates an apk with the merger. 
+* The apk is not signed or lined.
 
 -----------------------
 es:
 * Decompila apk objetivo y apk binder.
 * Unifica AndroidManifest.xml de los dos apk's.
-* Copia recursos y activos (ver limitaciones).
-* Implementa un receiver que dá de alta en el apk objetivo que actúa de "binder" y que reacciona cuando se conecta el cargador y reinicia el dispositivo.
+* Copia activos y código smali (excepto recursos, ver limitaciones).
+* Implementa un receiver que dá de alta en el apk objetivo que actúa de "binder" y que reacciona cuando se conecta el cargador o reinicia el dispositivo.
 * Cuando el receiver "despierta", invoca a la clase definida en el properties (que debe de ser un servicio).
 * El receiver y el properties son copiados en el "package" objetivo con nombres aleatorios.
 * Compila y genera un apk con la fusión realizada.
-* El apk está no está alineado y no está firmado.
+* El apk no está firmado ni alineado.
 
 Usage
 -----
@@ -75,7 +75,7 @@ Si no surgen problemas el resultado es almacenado en "Bind_apk_target.apk"
 Limitations
 -----------
 en:
-apk_binder_script has certain limitations and works stable with services "bindeados". 
+apk_binder_script has certain limitations and works with "bindeados" services. 
 Currently no resources or activities to the manifest are copied, and in some cases creates problems recompiling with apktool. 
 Viability and use cases for proper implementation etudia. 
 When recompiling with apktool certain apks', you may not do it properly generating resource compilation errors, 
@@ -83,7 +83,7 @@ but it is a case outside the script. How to decode the file AndroidManifest.xml 
 all resources.
 -----------------------
 es:
-apk_binder_script tiene ciertas limitaciones y funciona estable con servicios "bindeados".
+apk_binder_script tiene ciertas limitaciones y funciona con servicios "bindeados".
 Actualmente no se copian recursos ni actividades al manifiesto, ya que en algunos casos genera problemas de recompilación con apktool.
 Se etudia la viabilidad y casos de uso para una correcta implementación.
 Al recompilar con apktool ciertos apks', es posible que no lo haga correctamente generando errores de compilación de recursos, 
