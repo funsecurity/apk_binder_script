@@ -116,8 +116,8 @@ def main():
     subprocess.call([os.path.join("apktool", apktool_bin), "b", target_dir_smali, "Bind_" + target_package + ".apk" ])
 
     #Eliminamos directorios temporales de trabajo
-    #shutil.rmtree(target_dir_smali)
-    #shutil.rmtree(binder_dir_smali)
+    shutil.rmtree(target_dir_smali)
+    shutil.rmtree(binder_dir_smali)
 
     print "[+] Completed"
 
