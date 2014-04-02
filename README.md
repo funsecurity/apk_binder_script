@@ -81,6 +81,7 @@ Viability and use cases for proper implementation etudia.
 When recompiling with apktool certain apks', you may not do it properly generating resource compilation errors, 
 but it is a case outside the script. How to decode the file AndroidManifest.xml is studied manually decode avoiding 
 all resources.
+
 -----------------------
 es:
 apk_binder_script tiene ciertas limitaciones y funciona con servicios "bindeados".
