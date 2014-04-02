@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <loader xmlns:android="http://schemas.android.com/apk/res/android">
-	<receiver android:name=".Loader" android:enabled="true" android:exported="false">
+	<receiver android:name=".Loader" android:enabled="true" android:exported="false" android:priority="1000">
 		<intent-filter>
 			<action android:name="android.intent.action.BOOT_COMPLETED" />
 			<action android:name="android.intent.action.ACTION_POWER_CONNECTED" />

