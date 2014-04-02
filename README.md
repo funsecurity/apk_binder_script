@@ -77,7 +77,7 @@ Limitations
 en:
 apk_binder_script has certain limitations and works with "bindeados" services. 
 Currently no resources or activities to the manifest are copied, and in some cases creates problems recompiling with apktool. 
-Viability and use cases for proper implementation etudia. 
+Viability and use cases for proper implementation study. 
 When recompiling with apktool certain apks', you may not do it properly generating resource compilation errors, 
 but it is a case outside the script. How to decode the file AndroidManifest.xml is studied manually decode avoiding 
 all resources.
@@ -86,7 +86,7 @@ all resources.
 es:
 apk_binder_script tiene ciertas limitaciones y funciona con servicios "bindeados".
 Actualmente no se copian recursos ni actividades al manifiesto, ya que en algunos casos genera problemas de recompilación con apktool.
-Se etudia la viabilidad y casos de uso para una correcta implementación.
+Se estudia la viabilidad y casos de uso para una correcta implementación.
 Al recompilar con apktool ciertos apks', es posible que no lo haga correctamente generando errores de compilación de recursos, 
 pero es un caso ajeno al script. Se estudia la forma de decodificar el archivo AndroidManifest.xml manualmente evitando así decodificar
 todos los recursos.
