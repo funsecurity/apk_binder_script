@@ -156,13 +156,14 @@ def smali_bind(target_apk, smali_bind):
     subprocess.call([os.path.join("apktool", apktool_bin), "b", target_dir_smali, "Bind_" + target_package + ".apk" ])
 
     #Eliminamos directorios temporales de trabajo
-    #shutil.rmtree(target_dir_smali)
+    shutil.rmtree(target_dir_smali)
 
     print "[+] Completed"
 
     print "[+]", target_apk, "processed"
 
 def copy_smali_file(target_dir_smali, smali_bind, path_smali_bind):
+
     os.makedirs(os.path.join(target_dir_smali, "smali", path_smali_bind[:path_smali_bind.rfind("/")]))
     shutil.copy2(smali_bind, os.path.join(target_dir_smali, "smali", path_smali_bind) + ".smali")
 
@@ -423,6 +424,7 @@ def usage():
     print sys.argv[0], "-t apk_target.apk -b apk_bind.apk -c class.service.to.invoke.from.bind\n"
 
 def version():
+
     print ""
     print "apk_binder_script", __version__, "|", __author__, "| adrian@adrianruiz.net | @funsecurity | www.funsecurity.net"
     print ""
