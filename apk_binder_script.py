@@ -163,8 +163,6 @@ def smali_bind(target_apk, smali_bind):
 
     print "[+] Completed"
 
-    print "[+]", target_apk, "processed"
-
 def prepare_smali_manifest(target_dir_smali, path_smali_bind):
 
     manifest = minidom.parse(os.path.join(target_dir_smali, ANDROID_MANIFEST))
