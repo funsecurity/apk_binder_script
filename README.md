@@ -135,3 +135,5 @@ Credits
 * t: @funsecurity.net
 * e: adrian_adrianruiz.net
 * GPG ID: 0x586270E8
+
+Bug reports, suggestions, criticisms, etc. are welcome
