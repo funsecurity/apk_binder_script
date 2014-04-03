@@ -427,7 +427,7 @@ def usage():
 
     print "Usage:",  sys.argv[0], "[OPTIONS]\n"
     print "---------------------------------------------------"
-    print " -t      apk target"
+    print " -t*     apk target"
     print " -b      apk bind on target"
     print " -c      class to invoke when the event is revealed"
     print " -s      class smali to bind"
@@ -435,8 +435,9 @@ def usage():
     print "Examples:\n"
     print "# smali bind to apk\n"
     print sys.argv[0], "-t apk_target.apk -s service_bind.smali\n"
-    print "# apk bind to another apk\n"
+    print "# apk bind to apk\n"
     print sys.argv[0], "-t apk_target.apk -b apk_bind.apk -c class.service.to.invoke.from.bind\n"
+    print "*** Permissions smali code must match the destination apk, otherwise it will not work."
 
 def version():
 

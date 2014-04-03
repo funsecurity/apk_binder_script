@@ -3,7 +3,7 @@
 About apk_binder_script
 -----------------------
 en:
-apk_binder_script allows us to unify two apk's in one. This copy smali code, active and manifest. 
+apk_binder_script allows us to unify two apk's in one or add a service apk smali code to the target. This copy smali code, active and manifest. 
 Implements a receiver acting loader loading the class specified as a parameter (a service). 
 The original application is normally run in parallel, the service is invoked by the loader based on two events: 
 
@@ -11,11 +11,11 @@ The original application is normally run in parallel, the service is invoked by 
 * android.intent.action.ACTION_POWER_CONNECTED 
 
 You can add actions and permissions as desired. 
-In short, allows us to "extend" the functionality of a apk, doors implement "administrative", etc.
+In short, allows us to "extend" the functionality of a apk, doors implement "administrative" etc..
 
 -----------------------
 es:
-apk_binder_script nos permite unificar dos apk's en uno. Para ello copia código smali, activos y manifiesto. 
+apk_binder_script nos permite unificar dos apk's en uno o agregar un servicio en código smali al apk objetivo. Para ello copia código smali, activos y manifiesto. 
 Implementa un receiver que actúa de loader cargando la clase que se ha especificado como parámetro (un servicio).
 La aplicación original se ejecuta normalmente y en paralelo, el servicio es invocado por el loader en base a dos eventos:
 
@@ -62,15 +62,28 @@ es:
 Usage
 -----
 en:
-* python ./apk_binder_script.py apk_target.apk apk_bind.apk class.in.apk_bind_to_invoke
+```sh
+Usage: apk_binder_script.py [OPTIONS]
 
-If no problems are found the result is stored in "Bind_apk_target.apk"
+---------------------------------------------------
+ -t*     apk target
+ -b      apk bind on target
+ -c      class to invoke when the event is revealed
+ -s      class smali to bind
+---------------------------------------------------
 
------------------------
-es:
-* python ./apk_binder_script.py apk_target.apk apk_bind.apk class.in.apk_bind_to_invoke
+Examples:
 
-Si no surgen problemas el resultado es almacenado en "Bind_apk_target.apk"
+# smali bind to apk
+
+apk_binder_script.py -t apk_target.apk -s service_bind.smali
+
+# apk bind to apk
+
+apk_binder_script.py -t apk_target.apk -b apk_bind.apk -c class.service.to.invoke.from.bind
+
+*** Permissions smali code must match the destination apk, otherwise it will not work.
+```
 
 Limitations
 -----------
