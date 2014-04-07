@@ -355,7 +355,7 @@ def get_package_manifest(manifest_file, target_dir_smali):
     manifest = minidom.parse(manifest_file)
     root_manifest = manifest.getElementsByTagName("manifest")
     #Obtenemos el package del manifest, en caso de ser incorrecto, obtenemos los packages desde los activities
-    if os.path.exists(os.path.join(target_dir_smali, "smali", root_manifest[0].attributes["package"].value)) == True:
+    if os.path.exists(os.path.join(target_dir_smali, "smali", root_manifest[0].attributes["package"].value.replace(".", os.sep))) == True:
         return root_manifest[0].attributes["package"].value
     else:
         for child in manifest.getElementsByTagName("activity"):
